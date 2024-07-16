@@ -1,0 +1,16 @@
+
+
+
+
+# Environments
+.schenv
+.wenv
+.venv
+env/
+schenv/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+python manage.py clearsessions

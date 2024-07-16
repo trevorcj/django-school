@@ -1,0 +1,171 @@
+creating backend with python(Django)
+
+##############################################
+first of all create a virtual environment 
+pyhton -m venv nameOfYourEnvr
+
+##############################################
+activate your virtual environment
+./nameOfYourEnvr/Scripts/activate for windows user
+source ./nameOfYourEnvr/Scripts/activate
+
+##############################################
+
+install Django framework
+pip install Django
+
+####################################################
+after installation we are going to create our Django project and app 
+Django-admin startproject nameOfYourProject . 
+Django-admin startapp nameOfYourApp 
+
+##########################################################################################
+
+go to settings.py in the project directory
+
+import os
+
+provide the absolute path for the base directory
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+include the your app to the installed app,
+
+
+update the database config
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        
+    }
+}
+
+
+for mysql database
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'your_db_name',
+        'USER': 'your_db_user',
+        'PASSWORD': 'your_db_password',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
+}
+you need to install mysqlclient for django
+pip install mysqlclient
+
+
+provide an email backend config for your project
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'dcmediabusiness1@gmail.com'
+EMAIL_HOST_PASSWORD = 'rwzm fyrx qbes rery'
+
+
+# TRUEHOST EMAIL.BACKEND
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'mail.jaloaded.com.ng'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'info@jaloaded.com.ng'
+# EMAIL_HOST_PASSWORD = 'fuRF4XkV63$s'
+# DEFAULT_FROM_EMAIL = 'info@jaloaded.com.ng'.
+
+
+
+provide a static files config for your project
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'assets') 
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+    
+]
+
+
+# Cpanel static settings
+
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'luxfatwu/public_html/media/')
+
+
+# STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'home/luxfatwu/public_html/static/') 
+
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static'),
+    
+# ]
+
+
+# To Handle admin staticfiles on development 
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+
+####################################################################################################
+
+go to urls.py in your project directory
+import include from django.urls
+from django.urls import path, include
+
+import settings from django.config
+from django.conf import settings
+
+import static from django.urls.static 
+from django.conf.urls.static import static
+
+include your app urls to your project path
+path('',include('core.urls'))
+
+handle the MEDIA_ROOT and MEDIA_URL
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+##############################################
+
+go to your app directory and create a file urls.py
+import path from django.urls
+import views from the current working directory
+
+from django.urls import path
+# from . views import *
+from . import views
+
+declare your urlspatterns
+urlpatterns = [
+    path('', views.index, name='index'),
+]
+
+###############################################
+
+go to the views.py in your app directory
+import all from models, we will use them later
+from . models import *
+
+define all your views functions here, start with index
+
+def index(request):
+    context = {}
+    return render(request, 'index.html', context )
+
+###################################################
+
+in your app directory create a folder templates,
+this is where you will put all your html pages like index.html, about.html etc
+
+##############################################
+
+create a static folder in the same directory with your project and app
+this is where you will put your js file, css file, images and any other static files

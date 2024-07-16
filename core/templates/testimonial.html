@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Course Detail {% endblock %}
+{% load static %}
+{% block content %}
+    <!-- Header Start -->
+    <div class="jumbotron jumbotron-fluid page-header position-relative overlay-bottom" style="margin-bottom: 90px;">
+        <div class="container text-center py-5">
+            <h1 class="text-white display-1">Testimonial</h1>
+            <div class="d-inline-flex text-white mb-5">
+                <p class="m-0 text-uppercase"><a class="text-white" href="">Home</a></p>
+                <i class="fa fa-angle-double-right pt-1 px-3"></i>
+                <p class="m-0 text-uppercase">Testimonial</p>
+            </div>
+            <div class="mx-auto mb-5" style="width: 100%; max-width: 600px;">
+                <div class="input-group">
+                    <div class="mx-auto mb-5" style="width: 100%; max-width: 600px;">
+                        <form method="get" action="{% url 'search' %}">
+                            <div class="input-group">
+                                <input type="text" name="query" class="form-control border-light" style="padding: 30px 25px;" placeholder="Keyword">
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary px-4 px-lg-5" type="submit">Search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+    
+    <!-- Testimonial Start -->
+    <div class="container-fluid bg-image py-5" style="margin: 90px 0;">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-5 mb-5 mb-lg-0">
+                    <div class="section-title position-relative mb-4">
+                        <h6 class="d-inline-block position-relative text-secondary text-uppercase pb-2">Testimonial</h6>
+                        <h1 class="display-4">{{ testimonial.title }}</h1>
+                    </div>
+                    <p class="m-0">{{ testimonial.description}}</p>
+                </div>
+                <div class="col-lg-7">
+                    <div class="owl-carousel testimonial-carousel">
+                        {% for i in testslider %}
+                        <div class="bg-white p-5">
+                            <i class="fa fa-3x fa-quote-left text-primary mb-4"></i>
+                            <p>{{ i.msg }}</p>
+                            <div class="d-flex flex-shrink-0 align-items-center mt-4">
+                                <img class="img-fluid mr-4" src="{{ i.image.url }}" alt="">
+                                <div>
+                                    <h5>{{ i.name }}</h5>
+                                    <span>{{ i.course }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Testimonial Start -->
+{% endblock %}

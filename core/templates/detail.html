@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block title %}Course Detail {% endblock %}
+{% load static %}
+{% block content %}
+    <!-- Header Start -->
+    <div class="jumbotron jumbotron-fluid page-header position-relative overlay-bottom" style="margin-bottom: 90px;">
+        <div class="container text-center py-5">
+            <h1 class="text-white display-1">Course Detail</h1>
+            <div class="d-inline-flex text-white mb-5">
+                <p class="m-0 text-uppercase"><a class="text-white" href="">Home</a></p>
+                <i class="fa fa-angle-double-right pt-1 px-3"></i>
+                <p class="m-0 text-uppercase">Course Detail</p>
+            </div>
+            <div class="mx-auto mb-5" style="width: 100%; max-width: 600px;">
+                <div class="mx-auto mb-5" style="width: 100%; max-width: 600px;">
+                    <form method="get" action="{% url 'search' %}">
+                        <div class="input-group">
+                            <input type="text" name="query" class="form-control border-light" style="padding: 30px 25px;" placeholder="Keyword">
+                            <div class="input-group-append">
+                                <button class="btn btn-secondary px-4 px-lg-5" type="submit">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+
+    <!-- Detail Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-lg-8">
+                    {% if course %}
+                    <div class="mb-5">
+                        <div class="section-title position-relative mb-5">
+                            <h6 class="d-inline-block position-relative text-secondary text-uppercase pb-2">Course Detail</h6>
+                            <h1 class="display-4">{{ course.name }}</h1>
+                        </div>
+                        <img class="img-fluid rounded w-100 mb-4" src="{{ course.image.url }}" alt="Image">
+                        <p>{{ course.description }}</p>
+                        <p>{{ course.description2 }}</p>
+                    </div>
+                    {% endif %}
+
+                    <h2 class="mb-3">Related Courses</h2>
+                    <div class="owl-carousel related-carousel position-relative" style="padding: 0 30px;">
+                        {% for i in related %}
+                        <a class="courses-list-item position-relative d-block overflow-hidden mb-2" href="{% url 'detail' course_id=i.id %}">
+                            <img class="img-fluid" src="{{ i.image.url }}" alt="">
+                            <div class="courses-text">
+                                <h4 class="text-center text-white px-3">{{ i.name }}</h4>
+                                <div class="border-top w-100 mt-3">
+                                    <div class="d-flex justify-content-between p-4">
+                                        <span class="text-white"><i class="fa fa-user mr-2"></i>{{ i.instructor }}</span>
+                                        <span class="text-white"><i class="fa fa-star mr-2"></i>{{ i.rating }}<small>(250)</small></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mt-5 mt-lg-0">
+                    {% if course %}
+                    <div class="bg-primary mb-5 py-3">
+                        <h3 class="text-white py-3 px-4 m-0">Course Features</h3>
+                       
+                        <div class="d-flex justify-content-between border-bottom px-4">
+                            <h6 class="text-white my-3">Instructor</h6>
+                            <h6 class="text-white my-3">{{ course.instructor }}</h6>
+                        </div>
+                        <div class="d-flex justify-content-between border-bottom px-4">
+                            <h6 class="text-white my-3">Rating</h6>
+                            <h6 class="text-white my-3">{{ course.rating }}<small></small></h6>
+                        </div>
+                        <div class="d-flex justify-content-between border-bottom px-4">
+                            <h6 class="text-white my-3">Lectures</h6>
+                            <h6 class="text-white my-3">{{ course.lectures }}</h6>
+                        </div>
+                        <div class="d-flex justify-content-between border-bottom px-4">
+                            <h6 class="text-white my-3">Duration</h6>
+                            <h6 class="text-white my-3">{{ course.duration }}</h6>
+                        </div>
+                        <div class="d-flex justify-content-between border-bottom px-4">
+                            <h6 class="text-white my-3">Skill level</h6>
+                            <h6 class="text-white my-3">{{ course.skill_level }}</h6>
+                        </div>
+                        <div class="d-flex justify-content-between px-4">
+                            <h6 class="text-white my-3">Language</h6>
+                            <h6 class="text-white my-3">{{ course.language}}</h6>
+                        </div>
+                        <h5 class="text-white py-3 px-4 m-0">Course Price: {{ course.course_price }}</h5>
+                        <div class="py-3 px-4">
+                            <a class="btn btn-block btn-secondary py-3 px-5" href="{% url "joinus" %}">Enroll Now</a>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="mb-5">
+                        <h2 class="mb-3">Categories</h2>
+                        <ul class="list-group list-group-flush">
+                            {% for category in categories_with_count %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <a href="#" class="text-decoration-none h6 m-0">{{ category.name }}</a>
+                                <span class="badge badge-primary badge-pill">{{ category.participant_count }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="mb-5">
+                        <h2 class="mb-4">Recent Courses</h2>
+                        {% for i in related %}
+                        <a class="d-flex align-items-center text-decoration-none mb-4" href="{% url 'detail' course_id=i.id %}">
+                            <img class="img-fluid rounded" src="{{ i.image.url }}" alt="" style="width: 80px; height: 80px;">
+                            <div class="pl-3">
+                                <h6>{{ i.name}}</h6>
+                                <div class="d-flex">
+                                    <small class="text-body mr-3"><i class="fa fa-user text-primary mr-2"></i>{{ i.instructor}}</small>
+                                    <small class="text-body"><i class="fa fa-star text-primary mr-2"></i>{{ i.rating}} (250)</small>
+                                </div>
+                            </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Detail End -->
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block title %}Join Us {% endblock %}
+{% load static %}
+{% block content %}
+    <!-- Custom script to fade out alerts -->
+<script>
+    $(document).ready(function() {
+        setTimeout(function() {
+            $('.alert').fadeOut('fast');
+        }, 20000); 
+    });
+</script>
+
+    <!-- Header Start -->
+        <div class="alert-container">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>Hello!</strong> {{ message }}.
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+    <!-- Courses Start -->
+    <div class="container-fluid px-0 py-5">
+        <div class="row justify-content-center bg-image mx-0 mb-5">
+            <div class="col-lg-6 py-5">
+                <div class="bg-white p-5 my-5">
+                    <h1 class="text-center mb-4">50% Off For New Students</h1>
+                    <form action="{% url 'joinus' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input type="text" name="name" class="form-control bg-light border-0" placeholder="Your Name" style="padding: 30px 20px;" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <input type="email" name="email" class="form-control bg-light border-0" placeholder="Your Email" style="padding: 30px 20px;" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <select name="course" class="custom-select bg-light border-0 px-3" id="course" style="height: 60px;" required>
+                                        <option value="">Select A Course</option>
+                                        {% for i in course %}
+                                            <option value="{{ i.id }}">{{ i.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <button class="btn btn-primary btn-block" type="submit" name="register_course" style="height: 60px;">Sign Up Now</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>                
+            </div>
+        </div>
+        <div class="row mx-0 justify-content-center pt-5">
+            <div class="col-lg-6">
+                <div class="section-title text-center position-relative mb-4">
+                    <h6 class="d-inline-block position-relative text-secondary text-uppercase pb-2">Our Courses</h6>
+                    <h1 class="display-4">Checkout New Releases Of Our Courses</h1>
+                </div>
+            </div>
+        </div>
+        <div class="owl-carousel courses-carousel">
+            {% for i in course %}
+            <div class="courses-item position-relative">
+                <img class="img-fluid" src="{{ i.image.url }}" alt="">
+                <div class="courses-text">
+                    <h4 class="text-center text-white px-3">{{ i.name }}</h4>
+                    <div class="border-top w-100 mt-3">
+                        <div class="d-flex justify-content-between p-4">
+                            <span class="text-white"><i class="fa fa-user mr-2"></i>{{ i.instructor }}</span>
+                            <span class="text-white"><i class="fa fa-star mr-2"></i>{{ i.rating }}<small>(250)</small></span>
+                        </div>
+                    </div>
+                    <div class="w-100 bg-white text-center p-4">
+                        <a class="btn btn-primary" href="{% url 'detail' course_id=i.id %}">Course Detail</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        
+    </div>
+    <!-- Courses End -->
+{% endblock %}
